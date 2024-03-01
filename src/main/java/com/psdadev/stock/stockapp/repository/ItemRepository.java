@@ -25,4 +25,12 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice);
 
+    // Save Item
+    @SuppressWarnings({ "null", "unchecked" })
+    Item save(Item item);
+
+    // Delete Item
+    @SuppressWarnings("null")
+    void deleteById(Long id);
+
 }

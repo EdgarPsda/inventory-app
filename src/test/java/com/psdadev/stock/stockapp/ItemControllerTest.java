@@ -2,7 +2,6 @@ package com.psdadev.stock.stockapp;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,12 +11,14 @@ import com.psdadev.stock.stockapp.controllers.ItemController;
 import com.psdadev.stock.stockapp.model.Item;
 import com.psdadev.stock.stockapp.service.ItemService;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @WebMvcTest(ItemController.class)
@@ -69,5 +70,19 @@ public class ItemControllerTest {
                 .andExpect(jsonPath("$[0].name").value("Item 1"))
                 .andExpect(jsonPath("$[1].id").value(2L))
                 .andExpect(jsonPath("$[1].name").value("Item 2"));
+    }
+
+    @Test
+    public void testDeleteItem() throws Exception {
+        Long itemId = 1L;
+        Item item = new Item(itemId, "Test Item", null, null, null, null);
+
+        when(itemService.findItemById(itemId)).thenReturn(item);
+
+        mockMvc.perform(delete("/api/v1/items/{id}", itemId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Item deleted"));
+
+        verify(itemService, times(1)).deleteItem(itemId);
     }
 }

@@ -1,10 +1,13 @@
 package com.psdadev.stock.stockapp.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "items")
@@ -13,10 +16,25 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
+    @NotBlank(message = "Name cannot be blank")
     private String name;
+
+    @Column(name = "description")
+    @NotBlank(message = "Description cannot be blank")
     private String description;
+
+    @Column(name = "category")
+    @NotBlank(message = "Category cannot be blank")
     private String category;
+
+    @Column(name = "price")
+    @NotNull(message = "Price cannot be blank")
     private Double price;
+
+    @Column(name = "quantity")
+    @NotNull(message = "Quantity cannot be blank")
     private Integer quantity;
 
     public Item() {

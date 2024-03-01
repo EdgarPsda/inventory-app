@@ -41,4 +41,22 @@ public class ItemService {
             throw new RuntimeException("Error getting item", e);
         }
     }
+
+    // Save Item
+    public Item saveItem(Item item) {
+        try {
+            return itemRepository.save(item);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving item", e);
+        }
+    }
+
+    // Delete Item
+    public void deleteItem(Long id) {
+        try {
+            itemRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting item", e);
+        }
+    }
 }
