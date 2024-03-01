@@ -15,7 +15,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findAll();
 
     // Find item by name
-    Item findByName(String name);
+    List<Item> findByNameIgnoreCase(String name);
 
     // Find item by id
     @SuppressWarnings("null")

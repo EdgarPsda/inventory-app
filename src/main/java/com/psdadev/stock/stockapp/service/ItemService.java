@@ -34,9 +34,9 @@ public class ItemService {
     }
 
     // Return item by name
-    public Item findItemByName(String name) {
+    public List<Item> findItemByName(String name) {
         try {
-            return itemRepository.findByName(name);
+            return itemRepository.findByNameIgnoreCase(name);
         } catch (Exception e) {
             throw new RuntimeException("Error getting item", e);
         }

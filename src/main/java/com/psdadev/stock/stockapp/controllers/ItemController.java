@@ -117,4 +117,20 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/items/name/{name}")
+    public List<Item> getItemByName(@PathVariable String name) {
+        List<Item> item = itemService.findItemByName(name);
+        System.out.println(item);
+
+        if (item.isEmpty()) {
+            throw new RuntimeException("Item not found");
+        }
+
+        try {
+            return item;
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting item");
+        }
+    }
+
 }
