@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.psdadev.stock.stockapp.model.Item;
 import com.psdadev.stock.stockapp.service.ItemService;
@@ -47,32 +46,15 @@ public class ItemController {
     }
 
     @GetMapping("/items/{id}")
-    public Item getItemById(@PathVariable Long id) {
+    public ResponseEntity<Item> getItemById(@PathVariable Long id) {
         Item item = itemService.findItemById(id);
-
-        if (item == null) {
-            throw new RuntimeException("Item not found");
-        }
-
-        try {
-            return item;
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting item");
-        }
+        return ResponseEntity.ok(item);
     }
 
     @PostMapping("/items")
     public ResponseEntity<Item> createItem(@Valid @RequestBody Item item) {
         Item savedItem = itemService.saveItem(item);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(savedItem.getId()).toUri();
-
-        try {
-            return ResponseEntity.created(location).body(savedItem);
-        } catch (Exception e) {
-            throw new RuntimeException("Error saving item");
-        }
+        return ResponseEntity.ok(savedItem);
     }
 
     @PutMapping("/items/{id}")
